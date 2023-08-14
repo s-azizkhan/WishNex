@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostType extends Model
 {
-    use HasFactory;
-    use HasUuids;
+    use HasFactory, HasUuids;
 
     protected $table = 'post_types';
 
