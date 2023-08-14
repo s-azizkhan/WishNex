@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            // use UUID for ID & set the default value to be unique
+        Schema::create('visibility_types', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
-            $table->text('content');
-            $table->enum('post_type', ['wish', 'idea', 'attachment', 'confession']);
-            // foreign key for post author
-            $table->foreignId('author_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('visibility_types');
     }
 };
