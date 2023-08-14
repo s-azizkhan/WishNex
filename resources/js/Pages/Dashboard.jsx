@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { EnvelopeOpenIcon } from "@radix-ui/react-icons"
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Button as MyBtn } from "@/components/ui/button"
 import { Button } from "@material-tailwind/react";
 import {
@@ -17,6 +16,8 @@ import { Label } from "@/components/ui/label"
 import InputError from '@/Components/InputError';
 import { useToast } from '@/Components/ui/use-toast';
 import { useEffect } from 'react';
+import { CreateWishBtn } from './Posts/List';
+import { PlusIcon } from '@radix-ui/react-icons';
 
 export default function Dashboard({ auth }) {
 
@@ -29,8 +30,6 @@ export default function Dashboard({ auth }) {
         email: user.email,
         redirect: route('dashboard'),
     });
-
-    console.log('data :>> ', data);
 
     const showToast = (recentlySuccessful) => {
         if (!recentlySuccessful) return;
@@ -58,38 +57,12 @@ export default function Dashboard({ auth }) {
 
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-center p-2">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
-                        <button
-                            class="flex select-none items-center gap-2 rounded-lg py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-blue-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            type="button"
-                            data-ripple-dark="true"
-                        >
-                            <a
-                                href={route('posts.create')}
-                                className="ml-1 block font-sans text-sm font-bold leading-normal text-pink-500 antialiased"
-                            >
-                                Sign up
-                            </a>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="2"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                                class="h-4 w-4"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                                ></path>
-                            </svg>
-                        </button>
+                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in! Add wish & explore like minded people.  </div>
+                        <CreateWishBtn />
 
                         <Dialog>
                             <DialogTrigger asChild>
-                                <MyBtn variant="outline">Edit Profile</MyBtn>
+                                <MyBtn >Edit Profile</MyBtn>
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px]">
                                 <DialogHeader>

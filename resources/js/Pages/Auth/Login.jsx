@@ -46,7 +46,7 @@ export default function Login({ status, canResetPassword }) {
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
-            <Card className="w-[350px]">
+            {/*<Card className="w-[350px]">
                 <form onSubmit={submit}>
                     <CardHeader>
                         <CardTitle>Login to continue</CardTitle>
@@ -110,7 +110,83 @@ export default function Login({ status, canResetPassword }) {
                         <Button disabled={processing} type="submit" className="w-full">Go</Button>
                     </CardFooter>
                 </form>
-            </Card>
+                <Link
+                    href={route('register')}
+                >
+
+                    <Button type="submit" className="w-auto m-5 ">Register</Button>
+                </Link>
+            </Card>*/}
+
+            <main className="w-full max-w-md mx-auto ">
+                <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                    <div className="p-4 sm:p-7">
+                        <div className="text-center">
+                            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Sign In</h1>
+                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                Forgot your password? {' '}
+                                <Link className="text-blue-600 decoration-2 hover:underline font-medium" href={route('password.request')}>
+                                    Reset password
+                                </Link>
+                            </p>
+                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                Don't have an account? {' '}
+                                <Link className="text-blue-600 decoration-2 hover:underline font-medium" href={route('register')}>
+                                    Create account
+                                </Link>
+                            </p>
+                        </div>
+
+                        <div className="mt-5">
+
+                            <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:mr-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ml-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">Or</div>
+
+                            {/* Form */}
+                            <form onSubmit={submit}>
+                                <div className="grid gap-y-4">
+                                    {/* Form Group */}
+                                    <div>
+                                        <InputLabel htmlFor="email" value="Email" className="block text-sm mb-2 dark:text-white" />
+
+                                        <TextInput
+                                            id="email"
+                                            name="email"
+                                            value={data.email}
+                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                            autoComplete="email"
+                                            isFocused={true}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                            required
+                                        />
+
+                                        <InputError message={errors.email} className="text-xs mt-2" />
+                                    </div>
+                                    <div className="mt-4">
+                                        <InputLabel htmlFor="password" value="Password" className="block text-sm mb-2 dark:text-white" />
+
+                                        <TextInput
+                                            id="password"
+                                            type="password"
+                                            name="password"
+                                            value={data.password}
+                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                            autoComplete="new-password"
+                                            onChange={(e) => setData('password', e.target.value)}
+                                            required
+                                        />
+
+                                        <InputError message={errors.password} className="mt-2" />
+                                    </div>
+                                    {/* End Form Group */}
+
+                                    <Button disabled={processing} className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gradient-to-tr from-rose-500 to-red-600">Go</Button>
+                                </div>
+                            </form>
+                            {/* End Form */}
+                        </div>
+                    </div>
+                </div>
+            </main>
 
             {/*<form onSubmit={submit}>
                 <div>

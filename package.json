@@ -21,6 +21,8 @@
         "vite": "^4.4.9"
     },
     "dependencies": {
+        "@heroicons/react": "^2.0.18",
+        "@hookform/resolvers": "^3.2.0",
         "@material-tailwind/react": "^2.1.0",
         "@radix-ui/react-checkbox": "^1.0.4",
         "@radix-ui/react-dialog": "^1.0.4",

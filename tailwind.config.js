@@ -3,7 +3,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 //import forms from '@tailwindcss/forms';
 import withMT from "@material-tailwind/react/utils/withMT";
 
-export default withMT({
+export default {
     darkMode: ["class"],
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
@@ -12,6 +12,7 @@ export default withMT({
         './resources/js/**/*.jsx',
         "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
         "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
+        'node_modules/preline/dist/*.js',
         //'./resources/js/Pages/*.{js,jsx}',
         //'./resources/js/Components/*.{js,jsx}',
         //'./app/**/*.{js,jsx}',
@@ -85,5 +86,8 @@ export default withMT({
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
-});
+    plugins: [
+        require("tailwindcss-animate"),
+        require('preline/plugin'),
+    ],
+};

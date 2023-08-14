@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -12,7 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $data = Auth::user()->posts;
+        return Inertia::render('Posts/List', [
+            'posts' => $data
+        ]);
     }
 
     /**
@@ -20,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Posts/Create', []);
     }
 
     /**
@@ -28,7 +35,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:255',
+            'postType' => 'required|in:wish,idea,attachment,confession',
+        ]);
+
+
+        $data = [
+            'content' => 'I ' . $request->postType . ' ' . $request->content,
+            'post_type' => $request->postType,
+        ];
+
+        Auth::user()->posts()->create($data);
+
+        return Redirect::route('posts.create')->with(['message' => strtoupper($request->postType) . ' created!']);
     }
 
     /**
@@ -60,6 +80,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if ($post->author_id === Auth::user()->id) {
+            Post::destroy($post->id);
+        }
+        return Redirect::route('posts.index')->with(['message' => 'Wish deleted!']);
     }
 }
