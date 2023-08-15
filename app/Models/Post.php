@@ -23,18 +23,19 @@ class Post extends Model
      */
     protected $fillable = [
         'content',
-        'post_type',
         'author_id',
         'parent_id',
+        'post_type_id',
+        'visibility_id',
+        'status_id',
     ];
 
-    // define enum for post type
-    const POST_TYPE = [
-        'wish',
-        'idea',
-        'attachment',
-        'confession',
-    ];
+    // Define a custom accessor for the content attribute
+    public function getContentAttribute()
+    {
+        return 'I ' . $this->postType->name . ' ' . $this->attributes['content'];
+        //return 'I wish ' . $this->postType()->name . $this->attributes['content'];
+    }
 
     // define relations
     /**
@@ -43,5 +44,29 @@ class Post extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
+    /**
+     * Post type
+     */
+    public function postType()
+    {
+        return $this->belongsTo(PostType::class, 'post_type_id', 'id');
+    }
+
+    /**
+     * Post status
+     */
+    public function status()
+    {
+        return $this->belongsTo(PostStatus::class, 'status_id', 'id');
+    }
+
+    /**
+     * Post visibility
+     */
+    public function visibility()
+    {
+        return $this->belongsTo(VisibilityType::class, 'visibility_id', 'id');
     }
 }

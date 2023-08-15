@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\VisibilityType;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $data = Auth::user()->posts;
+        $data = Auth::user()->posts()->with(['visibility', 'status'])->get();
         return Inertia::render('Posts/List', [
             'posts' => $data
         ]);
@@ -27,7 +30,15 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Posts/Create', []);
+        $post_statuses = PostStatus::all();
+        $post_visibilities = VisibilityType::all();
+        $post_type = PostType::where(['name' => 'wish'])->first();
+
+        return Inertia::render('Posts/Create', [
+            'postStatuses' => $post_statuses,
+            'postVisibilities' => $post_visibilities,
+            'postType' => $post_type
+        ]);
     }
 
     /**
@@ -35,15 +46,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'content' => 'required|string|max:255',
-            'postType' => 'required|in:wish,idea,attachment,confession',
+            'postTypeId' => 'required|uuid',
+            'visibilityId' => 'required|uuid',
+            'postTypeId' => 'required|uuid',
         ]);
 
 
         $data = [
-            'content' => 'I ' . $request->postType . ' ' . $request->content,
-            'post_type' => $request->postType,
+            'content' => $request->content,
+            'post_type_id' => $request->postTypeId,
+            'visibility_id' => $request->visibilityId,
+            'status_id' => $request->postStatusId
         ];
 
         Auth::user()->posts()->create($data);
@@ -56,7 +72,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $data = $post->with(['visibility', 'status'])->get();
+        dd($data);
     }
 
     /**
@@ -64,7 +81,16 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $post_statuses = PostStatus::all();
+        $post_visibilities = VisibilityType::all();
+        $post_type = PostType::where(['name' => 'wish'])->first();
+
+        return Inertia::render('Posts/Edit', [
+            'postStatuses' => $post_statuses,
+            'postVisibilities' => $post_visibilities,
+            'postType' => $post_type,
+            'postData' => $post
+        ]);
     }
 
     /**
@@ -72,7 +98,26 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // validate request
+        $request->validate([
+            'content' => 'required|string|max:255',
+            'postTypeId' => 'required|uuid',
+            'visibilityId' => 'required|uuid',
+            'postTypeId' => 'required|uuid',
+        ]);
+
+        $data = [
+            'content' => $request->content,
+            'post_type_id' => $request->postTypeId,
+            'visibility_id' => $request->visibilityId,
+            'status_id' => $request->postStatusId
+        ];
+
+        // update
+        $post->update($data);
+
+        // redirect to index
+        return Redirect::route('posts.index')->with(['message' => strtoupper($request->postType) . ' updated!']);
     }
 
     /**
