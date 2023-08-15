@@ -3,7 +3,8 @@ import { Head, Link } from '@inertiajs/react';
 import { CreateWishForm } from './Partials/CreateWish';
 
 
-export default function Edit({ auth, data }) {
+export default function Create({ auth, postStatuses, postVisibilities }) {
+    console.log('postVisibilities :>> ', postVisibilities);
     return (
         <AppLayout
             user={auth.user}

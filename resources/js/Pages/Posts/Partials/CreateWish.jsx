@@ -44,12 +44,25 @@ export function CreateWishForm() {
                         placeholder="Type your wish here."
                     />
                     <InputError message={errors.content} className="mt-2" />
-
                     <p className="text-sm text-muted-foreground">
                         {/*print the content here*/}
                         I wish {data.content}
                     </p>
+
+                    
+                     <Label htmlFor="content">I wish for...</Label>
+                    <Textarea
+                        id="content"
+                        name="content"
+                        value={data.content}
+                        onChange={(e) => setData('content', e.target.value)}
+                        required
+                        placeholder="Type your wish here."
+                    />
+                    <InputError message={errors.content} className="mt-2" />
+
                 </div>
+
                 <Button disabled={processing}>
                     {processing && (
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
