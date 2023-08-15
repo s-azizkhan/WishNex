@@ -28,6 +28,10 @@ class Post extends Model
         'post_type_id',
         'visibility_id',
         'status_id',
+        'enable_comment',
+        'enable_reaction',
+        'comment_count',
+        'reaction_count',
     ];
 
     // Define a custom accessor for the content attribute
@@ -68,5 +72,13 @@ class Post extends Model
     public function visibility()
     {
         return $this->belongsTo(VisibilityType::class, 'visibility_id', 'id');
+    }
+
+    /**
+     * Reactions
+     */
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class, 'post_id', 'id');
     }
 }

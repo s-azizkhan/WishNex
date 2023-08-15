@@ -3,12 +3,54 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
 import ModeToggle from '@/Components/ModeToggle';
-import { NavbarDark } from '@/Components/layout/NavbarDark';
+import { Button as MyBtn } from "@/components/ui/button"
+import { Button } from "@material-tailwind/react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import InputError from '@/Components/InputError';
+import { useToast } from '@/Components/ui/use-toast';
+import { useEffect } from 'react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+
 
 export default function AppLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    const { toast } = useToast()
+
+
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        name: user.name,
+        email: user.email,
+        redirect: route('dashboard'),
+    });
+
+    const showToast = (recentlySuccessful) => {
+        if (!recentlySuccessful) return;
+        console.log('recentlySuccessful :>> ', recentlySuccessful);
+        toast({
+            title: "Profile Updated",
+            description: "Your profile has been updated.",
+        })
+    }
+
+    useEffect(showToast, [recentlySuccessful]);
+
+    const updateProfile = (e) => {
+        e.preventDefault();
+
+        patch(route('profile.update'));
+    };
 
     return (
         <>
@@ -25,8 +67,9 @@ export default function AppLayout({ user, header, children }) {
                                 </div>
 
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                        Dashboard
+                                    {/*<NavLink href={route('dashboard')} active={route().current('dashboard')}>*/}
+                                    <NavLink href={route('public.wish.list')} active={route().current('public.wish.list')}>
+                                        Explore
                                     </NavLink>
                                 </div>
                             </div>
@@ -59,7 +102,7 @@ export default function AppLayout({ user, header, children }) {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
-                                            <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                            {/*<Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>*/}
                                             <Dropdown.Link href={route('logout')} method="post" as="button">
                                                 Log Out
                                             </Dropdown.Link>
@@ -98,8 +141,8 @@ export default function AppLayout({ user, header, children }) {
 
                     <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                         <div className="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                Dashboard
+                            <ResponsiveNavLink href={route('public.wish.list')} active={route().current('public.wish.list')}>
+                                Explore
                             </ResponsiveNavLink>
                         </div>
 
@@ -110,7 +153,7 @@ export default function AppLayout({ user, header, children }) {
                             </div>
 
                             <div className="mt-3 space-y-1">
-                                <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                                {/*<ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>*/}
                                 <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                     Log Out
                                 </ResponsiveNavLink>
@@ -132,9 +175,9 @@ export default function AppLayout({ user, header, children }) {
                 <main>
                     <div className="relative overflow-hidden">
                         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
-                            <div className="text-center">
+                            <div className="">
+                            {children}
                             </div>
-                    {children}
                         </div>
                     </div>
                 </main>

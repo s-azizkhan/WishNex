@@ -6,7 +6,6 @@ use App\Models\Post;
 use App\Models\PostStatus;
 use App\Models\PostType;
 use App\Models\VisibilityType;
-use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -48,10 +47,12 @@ class PostController extends Controller
     {
 
         $request->validate([
-            'content' => 'required|string|max:255',
-            'postTypeId' => 'required|uuid',
-            'visibilityId' => 'required|uuid',
-            'postTypeId' => 'required|uuid',
+            'content' => 'bail|required|string|max:255',
+            'postTypeId' => 'bail|required|uuid',
+            'visibilityId' => 'bail|required|uuid',
+            'postTypeId' => 'bail|required|uuid',
+            'enableComment' => 'bail|boolean',
+            'enableReaction' => 'bail|boolean',
         ]);
 
 
@@ -59,7 +60,9 @@ class PostController extends Controller
             'content' => $request->content,
             'post_type_id' => $request->postTypeId,
             'visibility_id' => $request->visibilityId,
-            'status_id' => $request->postStatusId
+            'status_id' => $request->postStatusId,
+            'enable_comment' => $request->enableComment,
+            'enable_reaction' => $request->enableReaction,
         ];
 
         Auth::user()->posts()->create($data);
@@ -100,17 +103,21 @@ class PostController extends Controller
     {
         // validate request
         $request->validate([
-            'content' => 'required|string|max:255',
-            'postTypeId' => 'required|uuid',
-            'visibilityId' => 'required|uuid',
-            'postTypeId' => 'required|uuid',
+            'content' => 'bail|required|string|max:255',
+            'postTypeId' => 'bail|required|uuid',
+            'visibilityId' => 'bail|required|uuid',
+            'postTypeId' => 'bail|required|uuid',
+            'enableComment' => 'bail|boolean',
+            'enableReaction' => 'bail|boolean',
         ]);
 
         $data = [
             'content' => $request->content,
             'post_type_id' => $request->postTypeId,
             'visibility_id' => $request->visibilityId,
-            'status_id' => $request->postStatusId
+            'status_id' => $request->postStatusId,
+            'enable_comment' => $request->enableComment,
+            'enable_reaction' => $request->enableReaction
         ];
 
         // update

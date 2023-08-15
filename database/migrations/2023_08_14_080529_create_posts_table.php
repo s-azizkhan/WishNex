@@ -15,10 +15,10 @@ return new class extends Migration
             $table->uuid('id')->unique()->primary();
             $table->uuid('parent_id')->nullable()->default(null);
             $table->text('content');
-            $table->boolean('comment_status')->default(false);
+            $table->boolean('enable_comment')->default(false);
             $table->bigInteger('comment_count')->default(0);
             $table->bigInteger('reaction_count')->default(0);
-            $table->boolean('reaction_status')->default(false);
+            $table->boolean('enable_reaction')->default(false);
             
             // Define foreign key constraints
             $table->foreignUuid('author_id')->references('id')->on('users')->cascadeOnDelete();

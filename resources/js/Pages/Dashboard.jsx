@@ -16,8 +16,7 @@ import { Label } from "@/components/ui/label"
 import InputError from '@/Components/InputError';
 import { useToast } from '@/Components/ui/use-toast';
 import { useEffect } from 'react';
-import { CreateWishBtn } from './Posts/List';
-import { PlusIcon } from '@radix-ui/react-icons';
+import { BannerLongBtn } from '@/Components/BannerLongBtn';
 
 export default function Dashboard({ auth }) {
 
@@ -58,7 +57,8 @@ export default function Dashboard({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-center p-2">
                         <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in! Add wish & explore like minded people.  </div>
-                        <CreateWishBtn />
+                        <BannerLongBtn description={"Click here to View / Manage your wish list"} linkUrl={route('posts.index')} title={" Want to see your wishes! 🌟"} key={'create'} />
+
 
                         <Dialog>
                             <DialogTrigger asChild>

@@ -20,4 +20,10 @@ class VisibilityType extends Model
         'only_me' => 'Only Me',
         'only_connection' => 'Only Connection',
     ];
+
+    // relations
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'visibility_id', 'id');
+    }
 }

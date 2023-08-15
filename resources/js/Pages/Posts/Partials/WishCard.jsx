@@ -52,19 +52,19 @@ export function WishCard({ postData }) {
         id: postData.id
     });
 
-    const deleteWish = (e) => {
+    const deleteWish = async (e) => {
         e.preventDefault();
-        destroy(route('posts.destroy', data.id));
+        await destroy(route('posts.destroy', data.id));
+        toast({
+            title: "Oops!!",
+            description: 'You just deleted one wish.',
+        });
     };
 
-    useEffect(() => {
-        return () => {
-            toast({
-                title: "Oops!!",
-                description: 'You just deleted one wish.',
-            });
-        };
-    }, [wasSuccessful]);
+    //useEffect(() => {
+    //    return () => {
+    //    };
+    //}, [wasSuccessful]);
 
     return (
         <Card className="w-[350px]">

@@ -13,22 +13,23 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { ToastAction } from "@/Components/ui/toast";
+import { Switch } from "@/components/ui/switch"
 
 export function CreateWishForm({ postStatuses, postVisibilities, postType, postData = null }) {
     const { data, setData, post, errors, processing, reset, wasSuccessful, patch } = useForm({
         content: postData?.content.removeFirstTwoWords() || '',
         postTypeId: postData?.post_type_id || postType.id,
         visibilityId: postData?.visibility_id || postVisibilities[0].id,
-        postStatusId: postData?.status_id || postStatuses[0].id
+        postStatusId: postData?.status_id || postStatuses[0].id,
+        enableComment: postData?.enable_comment || false,
+        enableReaction: postData?.enable_reaction || false
     });
+
 
     useEffect(() => {
         return () => {
             reset('content');
-            toast({
-                title: "Hurra! 🎉🥳",
-                description: `Your wish has been ${postData ? 'updated' : 'created'} `,
-            });
         };
     }, [wasSuccessful]);
 
@@ -40,6 +41,18 @@ export function CreateWishForm({ postStatuses, postVisibilities, postType, postD
         } else {
             post(route('posts.store'));
         }
+
+        toast({
+            title: "Hurray! 🎉🥳",
+            description: `Your wish has been ${postData ? 'updated' : 'created'} `,
+            action: (!postData &&
+                <ToastAction altText="View All wishes">
+                    <Link href={route('posts.index')}>
+                        View All wishes
+                    </Link>
+                </ToastAction>
+            ),
+        });
     };
 
     return (
@@ -102,7 +115,33 @@ export function CreateWishForm({ postStatuses, postVisibilities, postType, postD
                     <InputError message={errors.postStatusId} className="mt-2" />
                 </div>
 
+                <div className="grid w-full gap-1.5">
+                    <div className="flex items-center space-x-2">
+                        <Switch
+                            checked={data.enableComment}
+                            onClick={() => setData('enableComment', !data.enableComment)}
+                            name="enableComment"
+                            id="enableComment"
+                        />
+                        <Label htmlFor="enableComment">Enable Comment on Wish</Label>
+
+                        <Switch
+                            checked={data.enableReaction}
+                            onClick={() => setData('enableReaction', !data.enableReaction)}
+                            name="enableReaction"
+                            id="enableReaction"
+                        />
+                        <Label htmlFor="enableReaction">Enable Reaction on Wish</Label>
+                    </div>
+                    <InputError message={errors.enableComment} className="mt-2" />
+                    <InputError message={errors.enableReaction} className="mt-2" />
+                </div>
+
+                <div className="grid w-full gap-1.5">
+                </div>
+
                 <Button disabled={processing}>
+                
                     {processing && (
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                     )}

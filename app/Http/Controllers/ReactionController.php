@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Reaction;
 use App\Http\Requests\StoreReactionRequest;
 use App\Http\Requests\UpdateReactionRequest;
+use App\Models\Post;
+use App\Models\ReactionType;
+use Illuminate\Http\Request;
 
 class ReactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function add_reaction(StoreReactionRequest $request, Post $post)
     {
-        //
-    }
+        $reactionType = ReactionType::where('name', $request->reactionType)->first();
+        $userId = auth()->user()->id;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // check user already had reaction to this post
+        $checkPrevReaction = Reaction::where('user_id', $userId)
+            ->where('post_id', $post->id)->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReactionRequest $request)
-    {
-        //
-    }
+        // if hav then revers the reaction
+        if ($checkPrevReaction) {
+            $checkPrevReaction->delete();
+            // update reaction count
+            $post->update([
+                'reaction_count' => $post->reaction_count - 1,
+            ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reaction $reaction)
-    {
-        //
-    }
+            return redirect()->back();
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Reaction $reaction)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReactionRequest $request, Reaction $reaction)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reaction $reaction)
-    {
-        //
+        $post->reactions()->create([
+            'user_id' => $userId,
+            'reaction_type_id' => $reactionType->id
+        ]);
+        // update reaction count
+        $post->update([
+            'reaction_count' => $post->reaction_count + 1,
+        ]);
+        return redirect()->back();
     }
 }

@@ -1,12 +1,14 @@
+import { PublicWishCard } from '@/Components/PublicWishCard';
 import { Link, Head } from '@inertiajs/react';
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth, postsData, cardTitle, cardLink, cardCTA }) {
+    console.log('postsData :>> ', postsData);
     return (
         <>
             <Head title='Welcome' />
-            <div className="bg-slate-900">
-                <div className="bg-gradient-to-b from-violet-600/[.15] via-transparent">
-                    <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8 h-screen">
+            <div className="bg-slate-900 ">
+                <div className="bg-gradient-to-b from-violet-600/[.15] via-transparent h-full">
+                    <div className="h-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8">
                         <div className="flex justify-center">
                             <Link className="group inline-block bg-white/[.05] hover:bg-white/[.1] border border-white/[.05] p-1 pl-4 rounded-full shadow-md" href={route('login')}>
                                 <p className="mr-2 inline-block text-white text-sm">
@@ -43,6 +45,18 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                                 </svg>
                             </Link>
+                        </div>
+
+                        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+
+                            {postsData?.map((postData) => {
+                                return (
+                                    <PublicWishCard key={postData.id} postData={postData} cardTitle={cardTitle} cardLink={cardLink}
+                                        cardCTA={cardCTA} userId={auth?.user?.id} />
+                                )
+                            })}
+
+
                         </div>
                     </div>
                 </div>
