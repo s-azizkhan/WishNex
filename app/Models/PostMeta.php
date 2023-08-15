@@ -9,4 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class PostMeta extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'post_id',
+        'meta_key',
+        'meta_value',
+    ];
 }

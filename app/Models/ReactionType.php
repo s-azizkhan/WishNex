@@ -9,4 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 class ReactionType extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'name',
+    ];
+
+    const REACTION_TYPES = [
+        'like' => 'Like',
+        'love' => 'Love',
+        'me_too' => 'Me Too',
+        'support' => 'Support',
+        'us_bro' => 'Us Bro',
+    ];
 }

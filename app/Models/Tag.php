@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'name'
+    ];
 }

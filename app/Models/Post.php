@@ -25,6 +25,7 @@ class Post extends Model
         'content',
         'post_type',
         'author_id',
+        'parent_id',
     ];
 
     // define enum for post type

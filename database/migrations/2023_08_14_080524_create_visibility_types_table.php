@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VisibilityType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,11 @@ return new class extends Migration
     {
         Schema::create('visibility_types', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            $table->string('name')->unique();
             $table->timestamps();
         });
+
+        $this->seed();
     }
 
     /**
@@ -23,5 +27,18 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('visibility_types');
+    }
+
+    /**
+     * Seed visibility types
+     */
+    public function seed()
+    {
+        $types = VisibilityType::VISIBILITY_TYPES;
+        foreach ($types as $keys => $type) {
+            VisibilityType::create([
+                'name' => $keys,
+            ]);
+        }
     }
 };

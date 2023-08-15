@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_metas', function (Blueprint $table) {
+        Schema::create('post_has_tags', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+
+            // foreign keys
+            $table->foreignUuid('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreignUuid('tag_id')->references('id')->on('tags')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_metas');
+        Schema::dropIfExists('post_has_tags');
     }
 };

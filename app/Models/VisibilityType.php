@@ -9,4 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class VisibilityType extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'name',
+    ];
+
+    const VISIBILITY_TYPES = [
+        'public' => 'Public',
+        'private' => 'Private',
+        'only_me' => 'Only Me',
+        'only_connection' => 'Only Connection',
+    ];
 }

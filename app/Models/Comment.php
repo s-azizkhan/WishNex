@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'body',
+        'is_approved',
+        'post_id',
+        'user_id',
+        'parent_id',
+    ];
 }

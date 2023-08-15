@@ -9,4 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserMeta extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'user_id',
+        'meta_key',
+        'meta_value',
+    ];
 }

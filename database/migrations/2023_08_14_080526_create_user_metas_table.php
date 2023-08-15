@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('user_metas', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            $table->string('meta_key');
+            $table->string('meta_value');
+
+            // foreign keys
+            $table->foreignUuid('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

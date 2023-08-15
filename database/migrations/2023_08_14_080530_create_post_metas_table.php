@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reactions', function (Blueprint $table) {
+        Schema::create('post_metas', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            $table->string('meta_key');
+            $table->string('meta_value');
+
+            // foreign keys
+            $table->foreignUuid('post_id')->references('id')->on('posts')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reactions');
+        Schema::dropIfExists('post_metas');
     }
 };

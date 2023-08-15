@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_has_tags', function (Blueprint $table) {
+        Schema::create('reactions', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            
+            // foreign keys
+            $table->foreignUuid('reaction_type_id')->references('id')->on('reaction_types')->cascadeOnDelete();
+            $table->foreignUuid('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_has_tags');
+        Schema::dropIfExists('reactions');
     }
 };

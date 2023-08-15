@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class PostHasTag extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'post_id',
+        'tag_id',
+    ];
 }
