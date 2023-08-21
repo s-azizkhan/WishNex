@@ -2,7 +2,6 @@ import { PublicWishCard } from '@/Components/PublicWishCard';
 import { Link, Head } from '@inertiajs/react';
 
 export default function Welcome({ auth, postsData, cardTitle, cardLink, cardCTA }) {
-    console.log('postsData :>> ', postsData);
     return (
         <>
             <Head title='Welcome' />

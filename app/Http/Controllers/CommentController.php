@@ -5,9 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Post;
 
 class CommentController extends Controller
 {
+    public function add_comment(StoreCommentRequest $request, Post $post)
+    {
+        $userId = auth()->user()->id;
+
+        $post->comments()->create([
+            'user_id' => $userId,
+            'body' => $request->content,
+            'parent_id' => null,
+        ]);
+
+        // increase post's comment count
+        $post->update([
+            'comment_count' => $post->comment_count + 1
+        ]);
+
+        return redirect()->back();
+    }
     /**
      * Display a listing of the resource.
      */

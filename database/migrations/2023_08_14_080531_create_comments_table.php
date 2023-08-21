@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            $table->uuid('parent_id')->nullable()->default(null);
             $table->text('body');
             $table->boolean('is_approved')->default(false);
 
@@ -24,7 +25,7 @@ return new class extends Migration
 
         // parent relation
         Schema::table('comments', function (Blueprint $table) {
-            $table->foreignUuid('parent_id')->references('id')->on('posts')->nullable()->default(null)->cascadeOnDelete();
+            $table->foreign('parent_id')->references('id')->on('posts')->cascadeOnDelete();
         });
     }
 

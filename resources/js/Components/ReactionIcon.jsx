@@ -1,19 +1,18 @@
-import { Link, Head, useForm } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
-import moment from 'moment';
+import { useForm } from '@inertiajs/react';
 import { CalendarIcon, HeartFilledIcon, HeartIcon, ReloadIcon } from "@radix-ui/react-icons"
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar"
+//import {
+//    Avatar,
+//    AvatarFallback,
+//    AvatarImage,
+//} from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { toast } from './ui/use-toast';
 
 
 export function ReactionIcon({ postData, userId = null }) {
@@ -23,19 +22,25 @@ export function ReactionIcon({ postData, userId = null }) {
     });
 
     const isUserReacted = () => {
-        const [value] = postData.reactions.map((reaction) => {
-            if (reaction.user_id === userId) {
-                return true;
-            }
-            return false;
+        // extract only user_id from the reactions
+        const reactedUserIds = postData.reactions.map((reaction) => {
+            return reaction.user_id
         })
-        return value;
+        return reactedUserIds.includes(userId);
     }
 
     const addReaction = async (e) => {
         e.preventDefault();
 
-        if (!userId) return false;
+        if (!userId || !postData.enable_reaction) {
+            toast({
+                title: "Opps!",
+                description: "The reaction feature is currently disabled for this.",
+                duration: 1000,
+                isClosable: true
+            })
+            return false;
+        }
 
         post(route('posts.reactions.store', {
             id: postData.id

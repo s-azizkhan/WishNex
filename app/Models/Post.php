@@ -81,4 +81,12 @@ class Post extends Model
     {
         return $this->hasMany(Reaction::class, 'post_id', 'id');
     }
+
+    /**
+     * Comments
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
 }
